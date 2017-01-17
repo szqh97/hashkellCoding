@@ -44,3 +44,14 @@ elem' _ [] = False
 elem' a (x:xs)
     | a == x    = True
     | otherwise = a `elem'` xs
+
+--
+quicksort :: (Ord a) =>[a] -> [a]
+quicksort [] = []
+quicksort (x:xs) = 
+    let samllerSorted = quicksort [a | a <- xs, a <= x]
+        biggerSorted = quicksort [a | a <- xs, a > x]
+    in samllerSorted ++ [x] ++ biggerSorted
+
+comparewithHundred :: (Num a, Ord a) => a -> Ordering
+comparewithHundred x = compare 100 x
