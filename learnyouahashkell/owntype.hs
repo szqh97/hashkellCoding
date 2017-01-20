@@ -59,6 +59,53 @@ lockers = Map.fromList
      (109, (Taken, "893JJ")),
      (110, (Taken, "99292"))
     ]
-data List a = Empty | Cons { listHead :: a, listTail :: List a } deriving (Show, Read, Eq, Ord)
+data LList a = Empty | Cons { listHead :: a, listTail :: LList a } deriving (Show, Read, Eq, Ord)
 
+data TrafficLight = Red | Yellow | Green
 
+instance Eq TrafficLight where
+    Red == Red = True
+    Yellow == Yellow = True
+    Green == Green = True
+    _ == _ = False
+
+instance Show TrafficLight where
+    show Red = "Red light"
+    show Yellow = "Yellow light"
+    show Green  = "Green light"
+{-
+class Eqq a where
+    (==) :: a -> a -> Bool
+    (/=) :: a -> a -> Bool
+    x == y = not (x /= y)
+    x /= y = not (x == y)
+-}
+
+class YesNo a where
+    yesno :: a -> Bool
+
+instance YesNo Int where
+    yesno 0 = False
+    yesno _ = True
+
+instance YesNo [a] where
+    yesno [] = False
+    yesno _  = True
+
+instance YesNo Bool where
+    yesno  = id
+
+instance YesNo (Maybe a) where
+    yesno (Just _) = True
+    yesno Nothing = False
+
+instance YesNo TrafficLight where
+    yesno Red = False
+    yesno _   = True
+
+yesnoIf :: (YesNo y ) => y -> a -> a -> a
+yesnoIf yesnoVal yesResult noResult = if yesno yesnoVal then yesResult else noResult
+
+--instance Functor [] where 
+--    fmap = map
+--
