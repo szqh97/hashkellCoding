@@ -17,6 +17,7 @@ instance FromJSON Mathmatician where
                             <*> (v .: "born")
                             <*> (v .:? "died")
 
+
 main :: IO ()
 main = do
     input <- B.readFile "/Users/li_yun/Projects/Haskell-Data-Analysis-Cookbook/Ch01/Code04_json/input.json"
