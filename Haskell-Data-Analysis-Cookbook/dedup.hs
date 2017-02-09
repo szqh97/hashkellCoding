@@ -36,6 +36,6 @@ parseItem record =
              genre = if null genreStr then S.empty else S.singleton genreStr
            }
     where nameStr = record !! 0
-          songStr = recrod !! 1
+          songStr = record !! 1
           genreStr = record !! 2
  
