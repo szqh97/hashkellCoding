@@ -9,3 +9,4 @@ queesN :: Int -> [[Int]]
 queesN n = queens n
     where queens 0 = [[]]
           queens m = [x:y | y <- queens (m-1), x <- [1..8], safe x y 1]
+
