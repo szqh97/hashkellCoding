@@ -5,11 +5,7 @@ safe x (x1:xs) n =
     && x /= x1 + n && x /= x1 - n
     && safe x xs (n+1)
 
-queens :: Int -> [[Int]]
-queens 0 = []
-queens n = [x:y | y <- queens (n-1), x <- [1..8], safe x y 1]
-
 queesN :: Int -> [[Int]]
 queesN n = queens n
-    where queens 0 = []
+    where queens 0 = [[]]
           queens m = [x:y | y <- queens (m-1), x <- [1..8], safe x y 1]
