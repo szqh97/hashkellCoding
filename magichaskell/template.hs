@@ -9,6 +9,7 @@ footT name = "Now help your self" ++ name ++ "\n"
 
 greetingMike :: String
 greetingMike = headT "Mike" ++ bodyT "Mike" ++ footT "Mike"
+{-
 
 renderGreeting = gather <$> headT <*> bodyT <*> footT where  gather x y z = x ++ y ++ z
 
@@ -34,3 +35,35 @@ renderGreeting4 = do
     b <- bodyT
     f <- footT
     return $ Greet h b f
+
+-}
+ask :: a -> a
+ask = id
+
+local :: (a -> a) -> (a -> r) -> a -> r
+local f g = g . f 
+
+data Greet = Greet {
+    guestName :: String,
+    greetHead :: String,
+    greetBody :: String,
+    greetFoot :: String
+} deriving Show
+
+renderGreetings :: String -> Greet
+renderGreetings = do
+    n <- ask
+    h <- headT
+    b <- bodyT
+    f <- local ("Mr. and Mrs. " ++ ) footT
+    return $ Greet n h b f
+
+renderGreetinglocal :: String -> Greet 
+renderGreetinglocal = do 
+    n <- ask
+    h <- headT
+    (b, f) <- local ("Mr. and Mrs. " ++ ) $ do 
+        b' <- bodyT
+        f' <- footT
+        return (b', f')
+    return $ Greet n h b f
