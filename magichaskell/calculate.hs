@@ -20,30 +20,29 @@ instance Monad (State s ) where
         let (a, s') = runState fa s 
         in  runState (f a) s'
  
+(~+) :: Double -> State Double (Double -> Double)
+(~+) x = State $ \s -> ((+x), s + x)
 
- (~+) :: Double -> State Double (Double -> Double)
- (~+) x = State $ \s -> ((+x), s + x)
+(~-) :: Double -> State Double (Double -> Double)
+(~-) x = State $ \s -> (((-)x), s - x)
 
- (~-) :: Double -> State Double (Double -> Double)
- (~-) x = State $ \s -> (((-)x), s - x)
+(~*) :: Double -> State Double (Double -> Double)
+(~*) x = State $ \s -> ((*x), s * x)
 
- (~*) :: Double -> State Double (Double -> Double)
- (~*) x = State $ \s -> ((*x), s * x)
+(~/) :: Double -> State Double (Double -> Double)
+(~/) x = State $ \s -> ((/x), s / x)
 
- (~/) :: Double -> State Double (Double -> Double)
- (~/) x = State $ \s -> ((/x), s / x)
+(~~) :: (Double -> Double) -> State Double (Double -> Double)
+(~~) f = State $ \s -> (f, f s)
 
- (~~) :: Double -> State Double (Double -> Double)
- (~~) f = State $ \s -> (f, f s)
-
- op :: State Double (Double -> Double)
- op = do
-    (~+) 10
-    (~*) 4
-    (~-) 2
-    (~/) 10
-    >>= ~~
-    >>= ~~
+op :: State Double (Double -> Double)
+op = do
+   (~+) 10
+   (~*) 4
+   (~-) 2
+   (~/) 10
+   >>= (~~)
+   >>= (~~)
 
 main :: IO ()
 main = do
