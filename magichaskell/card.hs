@@ -39,4 +39,28 @@ instance Monad (State s ) where
                 let (a, s') = runState fa s 
                 in  runState (f a) s'
     
+countCards :: State CardStack Int
+countCards = State $ \s -> (length s, s)
+-- point-free
+countCards = pure . length
 
+sortCards :: State CardStack ()
+sortCards = State $ \s -> ((), sort s)
+
+popCards :: State CardStack Card
+popCards = State $ \s -> (head s, tail s)
+
+pushCards :: Card -> State CardStack ()
+pushCards c = State $ \s -> ((), c : s)
+
+myCardStack :: CardStack
+myCardStack = [C_8, C_J, C_2]
+
+op :: State CardStack Card
+op = do
+    sortCards
+    pushCards C_Q
+    sortCards
+    popCards
+
+runState op myCardStack
